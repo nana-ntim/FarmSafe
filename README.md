@@ -3,6 +3,8 @@ This is Group 9's final project work for Introduction to Artificial Intelligence
 
 This project is a Flask application designed as part of the Intro to AI course final project. This README file will guide you on how to set up and host this application on a local server or on the cloud using Vercel.
 
+You can find a live demonstration of this app using this link: https://youtu.be/24pn_CPyFLo
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
