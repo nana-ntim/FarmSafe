@@ -1,0 +1,4 @@
+/Users/nyan/Documents/Uni[[:space:]]Work/Second[[:space:]]Year[[:space:]]-[[:space:]]Second[[:space:]]Semester/Introduction[[:space:]]to[[:space:]]Ai/Final[[:space:]]Project/Intro[[:space:]]to[[:space:]]Ai[[:space:]]-[[:space:]]Group[[:space:]]9[[:space:]]Final[[:space:]]Project/chroma_db filter=lfs diff=lfs merge=lfs -text
+/Users/nyan/Documents/GitHub/FarmSafe/chroma_db filter=lfs diff=lfs merge=lfs -text
+chroma_db/720f7153-8c59-43a2-ab67-d4049c8016a6/data_level0.bin filter=lfs diff=lfs merge=lfs -text
+chroma_db/chroma.sqlite3 filter=lfs diff=lfs merge=lfs -text
