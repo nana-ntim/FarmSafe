@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSafe: {{ pesticide }} - Residue and Harvest Time</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f0f8ea;
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-weight: 700;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .section {
+            background-color: #f9f9f9;
+            border-left: 5px solid #27ae60;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 30px auto;
+        }
+        .chart-explanation {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .btn-primary {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">{{ pesticide }} - Residue and Harvest Time</h1>
+
+        <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Overview</h2>
+            <p>{{ result.overview }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-hourglass-half"></i> Half-life</h2>
+            <p><strong><i class="fas fa-seedling"></i> In soil:</strong> {{ result.half_life.soil.days }} days</p>
+            <p>{{ result.half_life.soil.explanation }}</p>
+            <p><strong><i class="fas fa-leaf"></i> On/in plants:</strong> {{ result.half_life.plant.days }} days</p>
+            <p>{{ result.half_life.plant.explanation }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-calendar-alt"></i> Pre-Harvest Interval</h2>
+            <p>{{ result.pre_harvest_interval.description }}</p>
+            <ul>
+                {% for interval in result.pre_harvest_interval.intervals %}
+                    <li><strong>{{ interval.crop }}:</strong> {{ interval.days }} days - {{ interval.explanation }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <h2 class="text-center mt-5"><i class="fas fa-chart-bar"></i> Pre-Harvest Intervals for Different Crops</h2>
+        <div class="chart-container">
+            <canvas id="preHarvestIntervalChart"></canvas>
+        </div>
+        <div class="chart-explanation">
+            <h3>Understanding Pre-Harvest Intervals</h3>
+            <p>This chart shows the required waiting period between the last pesticide application and harvest for different crops. Longer bars indicate a longer waiting period. Always adhere to these intervals to ensure safe produce.</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Maximum Residue Limits (MRLs)</h2>
+            <ul>
+                {% for mrl in result.maximum_residue_limits %}
+                    <li>
+                        <strong>{{ mrl.crop }}:</strong> {{ mrl.limit }} ppm
+                        <p>{{ mrl.explanation }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <h2 class="text-center mt-5"><i class="fas fa-chart-area"></i> Residue Decay Over Time</h2>
+        <div class="chart-container">
+            <canvas id="residueDecayChart"></canvas>
+        </div>
+        <div class="chart-explanation">
+            <h3>Understanding Residue Decay</h3>
+            <p>This chart illustrates how pesticide residue typically decreases over time after application. The green line represents the decay in soil, while the lighter green line shows decay on/in plants. The blue dotted line indicates a common Maximum Residue Limit (MRL) for reference.</p>
+            <p>Note: Actual decay rates can vary based on environmental factors and application methods.</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-cogs"></i> Factors Affecting Residue</h2>
+            <ul>
+                {% for factor in result.factors_affecting_residue %}
+                    <li>{{ factor }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-recycle"></i> Residue Reduction Methods</h2>
+            <ul>
+                {% for method in result.residue_reduction_methods %}
+                    <li>{{ method }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-shield-alt"></i> Safety Tips</h2>
+            <ul>
+                {% for tip in result.safety_tips %}
+                    <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary"><i class="fas fa-search"></i> Back to Search</a>
+        </div>
+    </div>
+
+    <script>
+        // Pre-Harvest Interval Chart
+        var phiCtx = document.getElementById('preHarvestIntervalChart').getContext('2d');
+        var phiChart = new Chart(phiCtx, {
+            type: 'bar',
+            data: {
+                labels: [{% for interval in result.pre_harvest_interval.intervals %}'{{ interval.crop }}',{% endfor %}],
+                datasets: [{
+                    label: 'Days',
+                    data: [{% for interval in result.pre_harvest_interval.intervals %}{{ interval.days }},{% endfor %}],
+                    backgroundColor: 'rgba(39, 174, 96, 0.2)',
+                    borderColor: 'rgb(39, 174, 96)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Days'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Residue Decay Chart
+        var decayCtx = document.getElementById('residueDecayChart').getContext('2d');
+        var decayChart = new Chart(decayCtx, {
+            type: 'line',
+            data: {
+                labels: ['0', '7', '14', '21', '28', '35'],
+                datasets: [{
+                    label: 'Soil Residue',
+                    data: [100, 50, 25, 12.5, 6.25, 3.125],
+                    borderColor: 'rgb(39, 174, 96)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Plant Residue',
+                    data: [100, 70, 49, 34.3, 24, 16.8],
+                    borderColor: 'rgb(46, 204, 113)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Typical MRL',
+                    data: [10, 10, 10, 10, 10, 10],
+                    borderColor: 'rgb(52, 152, 219)',
+                    borderDash: [5, 5]
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Residue (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Days After Application'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

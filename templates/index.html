@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSafe: Your Trusted Pesticide Advisor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --text-color: #333;
+            --bg-color: #f0f8ff;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: row;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .card-body {
+            padding: 40px;
+            flex: 2;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .instructions {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .instructions-icon {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        .instructions h4 {
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .instructions ol {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        .instructions li, .instructions p {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 35px;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                flex-direction: column;
+                max-width: 420px;
+            }
+            .card-header, .card-body {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>FarmSafe</h1>
+                <p class="subtitle">Your Trusted Pesticide Advisor</p>
+            </div>
+            <div class="card-body">
+                <div class="instructions">
+                    <div class="instructions-icon">
+                        <i class="fas fa-info"></i>
+                    </div>
+                    <h4>How to Use FarmSafe</h4>
+                    <ol>
+                        <li>Enter the pesticide name you need information about.</li>
+                        <li>Select the specific information category from the dropdown.</li>
+                        <li>Click "Get Expert Advice" for tailored, farmer-friendly guidance.</li>
+                    </ol>
+                    <p>FarmSafe provides comprehensive safety information, application guidelines, and harvest recommendations to optimize your pesticide usage while prioritizing safety and environmental responsibility.</p>
+                </div>
+
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="pesticide" class="form-label">Pesticide Name:</label>
+                        <input type="text" class="form-control" id="pesticide" name="pesticide" placeholder="e.g. Glyphosate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class="form-label">Information Category:</label>
+                        <select class="form-control" id="category" name="category" required>
+                            <option value="" disabled selected>Choose a category</option>
+                            <option value="info">General Information</option>
+                            <option value="application">Application Guide</option>
+                            <option value="safety">Safety Precautions</option>
+                            <option value="environment">Environmental Impact</option>
+                            <option value="residue">Residue and Harvest Time</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Get Expert Advice</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

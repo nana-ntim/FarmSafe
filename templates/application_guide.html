@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSafe: {{ pesticide }} - Application Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f8ea;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-weight: 700;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .section {
+            background-color: #f9f9f9;
+            border-left: 5px solid #27ae60;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 30px auto;
+        }
+        .chart-explanation {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .btn-primary {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">{{ pesticide }} - Application Guide</h1>
+
+        <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Overview</h2>
+            <p>{{ result.overview }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-clipboard-list"></i> Preparation</h2>
+            <ol>
+                {% for step in result.preparation %}
+                    <li>{{ step }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-spray-can"></i> Application Method</h2>
+            <ol>
+                {% for step in result.application_method %}
+                    <li>{{ step }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-clock"></i> Timing</h2>
+            <p>{{ result.timing }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-vial"></i> Dosage</h2>
+            <p>{{ result.dosage }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-shield-alt"></i> Safety Precautions</h2>
+            <ul>
+                {% for precaution in result.safety_precautions %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-leaf"></i> Environmental Considerations</h2>
+            <p>{{ result.environmental_considerations }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-door-open"></i> Reentry Interval</h2>
+            <p>{{ result.reentry_interval }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-calendar-alt"></i> Application Frequency</h2>
+            <p><strong>Frequency:</strong> {{ result.application_frequency.frequency }}</p>
+            <p><strong>Maximum Applications:</strong> {{ result.application_frequency.max_applications }}</p>
+        </div>
+
+        {% if result.chart_data %}
+            <h2 class="text-center mt-5"><i class="fas fa-chart-bar"></i> Application Conditions</h2>
+            <div class="chart-container">
+                <canvas id="applicationConditionsChart"></canvas>
+            </div>
+            <div class="chart-explanation">
+                <h3>Understanding the Graph</h3>
+                <p>This graph illustrates two crucial factors for the effective application of {{ pesticide }}:</p>
+                <ul>
+                    <li><strong>Optimal Temperature Range (Blue Bar):</strong> This shows the ideal temperature range for applying the pesticide. The left end of the bar represents the minimum temperature, and the right end represents the maximum temperature for optimal effectiveness.</li>
+                    <li><strong>Rainfall Sensitivity (Green Bar):</strong> This indicates how sensitive the pesticide is to rainfall after application. A higher value (closer to 10) means the pesticide is more likely to be washed away by rain, requiring a longer rain-free period after application.</li>
+                </ul>
+                <p>Interpreting the results:</p>
+                <ul>
+                    <li>Apply {{ pesticide }} when the temperature is within the blue bar range for best results.</li>
+                    <li>If the rainfall sensitivity is high, ensure there's no rain forecast for several hours after application.</li>
+                    <li>Always check the weather forecast before applying {{ pesticide }} to ensure optimal conditions.</li>
+                </ul>
+                <p>Remember: These are general guidelines. Always refer to the product label for specific instructions and consult with local agricultural experts for advice tailored to your region's climate.</p>
+            </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary"><i class="fas fa-search"></i> Back to Search</a>
+        </div>
+    </div>
+
+    {% if result.chart_data %}
+        <script>
+            var ctx = document.getElementById('applicationConditionsChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Optimal Temperature Range', 'Rainfall Sensitivity'],
+                    datasets: [{
+                        label: 'Temperature Range (°C)',
+                        data: [{{ result.chart_data.optimal_temperature[0] }}, {{ result.chart_data.optimal_temperature[1] }}],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Sensitivity (1-10)',
+                        data: [0, {{ result.chart_data.rainfall_sensitivity }}],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: Math.max({{ result.chart_data.optimal_temperature[1] }}, 10),
+                            title: {
+                                display: true,
+                                text: 'Temperature (°C) / Sensitivity Rating'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true
+                        },
+                        title: {
+                            display: true,
+                            text: 'Application Conditions for {{ pesticide }}'
+                        }
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+</body>
+</html>

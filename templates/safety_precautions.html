@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSafe: {{ pesticide }} - Safety Precautions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f0f8ea;
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-weight: 700;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .section {
+            background-color: #f9f9f9;
+            border-left: 5px solid #27ae60;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 30px auto;
+        }
+        .chart-explanation {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+            border-radius: 10px;
+        }
+        .btn-primary {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">{{ pesticide }} - Safety Precautions</h1>
+
+        <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Overview</h2>
+            <p>{{ result.overview }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-hard-hat"></i> Personal Protective Equipment (PPE)</h2>
+            <ul>
+                {% for item in result.personal_protective_equipment %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Handling Precautions</h2>
+            <ul>
+                {% for precaution in result.handling_precautions %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-spray-can"></i> Application Safety</h2>
+            <ul>
+                {% for measure in result.application_safety %}
+                    <li>{{ measure }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-warehouse"></i> Storage and Disposal</h2>
+            <ul>
+                {% for guideline in result.storage_disposal %}
+                    <li>{{ guideline }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-leaf"></i> Environmental Safety</h2>
+            <ul>
+                {% for precaution in result.environmental_safety %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-first-aid"></i> First Aid Measures</h2>
+            <p><strong><i class="fas fa-hand-paper"></i> Skin Contact:</strong> {{ result.first_aid_measures.skin_contact }}</p>
+            <p><strong><i class="fas fa-eye"></i> Eye Contact:</strong> {{ result.first_aid_measures.eye_contact }}</p>
+            <p><strong><i class="fas fa-lungs"></i> Inhalation:</strong> {{ result.first_aid_measures.inhalation }}</p>
+            <p><strong><i class="fas fa-utensils"></i> Ingestion:</strong> {{ result.first_aid_measures.ingestion }}</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-ambulance"></i> Emergency Procedures</h2>
+            <p>{{ result.emergency_procedures }}</p>
+        </div>
+
+        <h2 class="text-center mt-5"><i class="fas fa-chart-radar"></i> Safety Ratings</h2>
+        <div class="chart-container">
+            <canvas id="safetyRatingsChart"></canvas>
+        </div>
+        <div class="chart-explanation">
+            <h3>Understanding the Safety Ratings</h3>
+            <p>This chart illustrates the safety ratings for {{ pesticide }} across three key dimensions:</p>
+            <ul>
+                <li><strong>Toxicity:</strong> Indicates the potential harmful effects on human health. Higher values suggest greater toxicity.</li>
+                <li><strong>Flammability:</strong> Represents how easily the pesticide can ignite. Higher values indicate increased fire hazard.</li>
+                <li><strong>Reactivity:</strong> Shows the pesticide's stability and potential to react with other substances. Higher values suggest greater reactivity.</li>
+            </ul>
+            <p>All ratings are on a scale from 0 (lowest risk) to 10 (highest risk).</p>
+            <p><strong>Specific Hazard:</strong> {{ result.safety_ratings.specific_hazard }}</p>
+            <p>Remember: These ratings provide a general guide. Always follow all safety procedures and consult the product label for specific instructions.</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-clock"></i> Reentry Interval</h2>
+            <p>{{ result.reentry_interval }}</p>
+        </div>
+
+        <div class="alert alert-info mt-4" role="alert">
+            <h4 class="alert-heading"><i class="fas fa-exclamation-circle"></i> Important Reminder</h4>
+            <p>Always read and follow the product label instructions. The information provided here is for general guidance and does not replace the specific instructions on the product label.</p>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary"><i class="fas fa-search"></i> Back to Search</a>
+        </div>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('safetyRatingsChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Toxicity', 'Flammability', 'Reactivity'],
+                datasets: [{
+                    label: 'Safety Ratings',
+                    data: [
+                        {{ result.safety_ratings.toxicity }},
+                        {{ result.safety_ratings.flammability }},
+                        {{ result.safety_ratings.reactivity }}
+                    ],
+                    backgroundColor: 'rgba(39, 174, 96, 0.2)',
+                    borderColor: 'rgb(39, 174, 96)',
+                    pointBackgroundColor: 'rgb(39, 174, 96)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(39, 174, 96)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: false
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10,
+                        ticks: {
+                            stepSize: 2
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
