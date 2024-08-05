@@ -8,10 +8,9 @@ This project is a Flask application designed as part of the Intro to AI course f
 1. [Project Overview](#project-overview)
 2. [Getting Started](#getting-started)
 3. [Local Installation](#local-installation)
-4. [Hosting on Vercel](#hosting-on-vercel)
-5. [Usage](#usage)
-6. [Contributing](#contributing)
-7. [License](#license)
+4. [Usage](#usage)
+5. [Contributing](#contributing)
+6. [License](#license)
 
 ## Project Overview
 
@@ -60,60 +59,6 @@ This Flask application showcases AI functionalities learned throughout the cours
     ```
     http://127.0.0.1:5000
     ```
-
-## Hosting on Vercel
-
-1. **Install the Vercel CLI:**
-
-    Download and install the Vercel CLI from [here](https://vercel.com/download).
-
-2. **Log in to Vercel:**
-
-    ```sh
-    vercel login
-    ```
-
-3. **Initialize your Vercel project:**
-
-    Navigate to your project directory and initialize your Vercel project:
-
-    ```sh
-    vercel init
-    ```
-
-4. **Create a `vercel.json` configuration file:**
-
-    In the root directory of your project, create a file named `vercel.json` with the following content:
-
-    ```json
-    {
-      "version": 2,
-      "builds": [
-        {
-          "src": "app.py",
-          "use": "@vercel/python"
-        }
-      ],
-      "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "app.py"
-        }
-      ]
-    }
-    ```
-
-5. **Deploy your application:**
-
-    Deploy your application to Vercel:
-
-    ```sh
-    vercel
-    ```
-
-6. **Open your application:**
-
-    Once deployed, Vercel will provide you with a URL where your application is hosted. Open this URL in your browser to view your application.
 
 ## Usage
 
