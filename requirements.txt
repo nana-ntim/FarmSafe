@@ -12,5 +12,5 @@ python-dotenv==0.21.0
 matplotlib==3.8.0
 rouge==1.0.1
 Flask==3.0.3
-chromadb==0.5.5
+chromadb==0.5.3
 gunicorn==22.0.0
