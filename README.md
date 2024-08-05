@@ -81,7 +81,11 @@ This will be accessed by our app and used.
 
 ## Contributing
 
-Feel free to fork this repository and submit pull requests.
+Feel free to contact us here
+
+Nana Yaw Asamoah Ntim: asamoah.ntim@ashesi.edu.gh
+
+Denis Aggyratus Demitrus: denis.demitrus@ashesi.edu.gh
 
 ## License
 
