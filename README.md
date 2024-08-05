@@ -16,9 +16,13 @@ You can find a live demonstration of this app using this link: https://youtu.be/
 
 ## Project Overview
 
-This Flask application showcases AI functionalities learned throughout the course. It includes:
-
-- [List major features and functionalities]
+This Flask application showcases a farm app build on openAI that requests the user to input a pesticide
+and the user gets information about it such as:
+- General Information
+- Application Guide
+- Residue and Harvest Time
+- Environmental Impact
+- Safety Precautions
 
 ## Getting Started
 
@@ -67,6 +71,13 @@ This Flask application showcases AI functionalities learned throughout the cours
  **Access the application locally:**
 
     Open your browser and navigate to `http://127.0.0.1:5000`.
+
+**What you need to use the app**
+
+To successfully start the application's AI capabilities, you
+need to create an .env file that contains your API key from openAI
+
+This will be accessed by our app and used.
 
 ## Contributing
 
