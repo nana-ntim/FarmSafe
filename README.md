@@ -64,13 +64,9 @@ This Flask application showcases AI functionalities learned throughout the cours
 
 ## Usage
 
-1. **Access the application locally:**
+ **Access the application locally:**
 
     Open your browser and navigate to `http://127.0.0.1:5000`.
-
-2. **Access the application on Vercel:**
-
-    Open your browser and navigate to the URL provided by Vercel.
 
 ## Contributing
 
